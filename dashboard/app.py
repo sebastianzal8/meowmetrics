@@ -165,7 +165,7 @@ def load_data():
 df = load_data()
 
 # DBTITLE 2,Sidebar Navigation & Selectors
-st.sidebar.image("https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=400", use_container_width=True)
+st.sidebar.image("D720F0F5-F61E-4E86-8191-6EED544CC472.jpg", use_container_width=True)
 st.sidebar.title("🐱 MeowMetrics")
 st.sidebar.caption("Cat Telemetry & Pipeline Analytics Dashboard")
 
