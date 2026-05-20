@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: dim_cats
+    description: Master cat dimension table containing profiles, parsed ages, and breed categorizations.
+    columns:
+      - name: cat_id
+        tests:
+          - unique
+          - not_null
+      - name: age_years
+        description: Calculated age in human years based on birth_date.
+
+  - name: fact_collar_readings
+    description: Detailed fact table of all collar telemetry logs.
+    columns:
+      - name: reading_id
+        tests:
+          - unique
+          - not_null
+      - name: cat_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_cats')
+              field: cat_id
+
+  - name: daily_cat_health
+    description: Aggregated daily health indices and sleep scores per cat.
+    columns:
+      - name: daily_summary_id
+        tests:
+          - unique
+          - not_null
+
+  - name: bi_tableau_views
+    description: Denormalized, high-performance database view built specifically to feed Tableau and Streamlit dashboard sheets.

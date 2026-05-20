@@ -1,0 +1,34 @@
+name: 'meowmetrics'
+version: '1.0.0'
+config-version: 2
+
+# Profile matches profile configuration name (e.g., in ~/.dbt/profiles.yml)
+profile: 'meowmetrics_profile'
+
+# File paths
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configure materialization standards:
+# - Staging tables default to ephemeral or view
+# - Intermediate models default to view
+# - Marts (dimensions, facts, aggregates) default to table/incremental
+models:
+  meowmetrics:
+    staging:
+      +materialized: view
+      +schema: raw_stage
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    marts:
+      +materialized: table
+      +schema: analytics

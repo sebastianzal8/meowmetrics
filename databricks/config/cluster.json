@@ -1,0 +1,32 @@
+{
+  "cluster_name": "meowmetrics-etl-cluster",
+  "spark_version": "13.3.x-scala2.12",
+  "node_type_id": "i3.xlarge",
+  "driver_node_type_id": "i3.xlarge",
+  "num_workers": 2,
+  "autoscale": {
+    "min_workers": 2,
+    "max_workers": 8
+  },
+  "spark_conf": {
+    "spark.databricks.delta.preview.enabled": "true",
+    "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
+    "spark.sql.streaming.forceDeleteTempCheckpointLocation": "true"
+  },
+  "aws_attributes": {
+    "first_on_demand": 1,
+    "availability": "SPOT_WITH_FALLBACK_ON_DEMAND",
+    "zone_id": "us-east-1a",
+    "instance_profile_arn": "arn:aws:iam::123456789012:instance-profile/databricks-meowmetrics-role"
+  },
+  "custom_tags": {
+    "Project": "MeowMetrics",
+    "Environment": "Production",
+    "Owner": "Data-Engineering"
+  },
+  "spark_env_vars": {
+    "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+  },
+  "enable_elastic_disk": true,
+  "data_security_mode": "SINGLE_USER"
+}

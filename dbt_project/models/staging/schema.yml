@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+  - name: raw_sources
+    database: MEOW_DB
+    schema: RAW_STAGE
+    tables:
+      - name: stg_raw_collar_telemetry
+        description: Raw smart-collar IoT telemetry files loaded via Databricks output.
+        columns:
+          - name: collar_id
+            tests:
+              - not_null
+          - name: cat_id
+            tests:
+              - not_null
+      - name: stg_raw_cat_registry
+        description: Master database list of registered cats and profiles.
+        columns:
+          - name: cat_id
+            tests:
+              - unique
+              - not_null
+
+models:
+  - name: stg_collar_telemetry
+    description: Staged collar telemetry records with standard data type definitions.
+    columns:
+      - name: reading_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_cat_metadata
+    description: Staged cat metadata details with clean naming structures.

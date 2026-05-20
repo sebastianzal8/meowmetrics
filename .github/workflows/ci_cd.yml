@@ -1,0 +1,69 @@
+# GitHub Actions CI/CD Pipeline for MeowMetrics
+name: CI Code Quality & Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-validate:
+    name: Lint Code & Validate Configs
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. CHECKOUT REPOSITORY
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. SETUP PYTHON ENVIRONMENT
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    # 3. INSTALL CI UTILITIES & PYTHON DEPENDENCIES
+    - name: Install Linting & Testing packages
+      run: |
+        python -m pip install --upgrade pip
+        pip install ruff sqlfluff dbt-snowflake
+        # Install Streamlit dashboard requirements
+        if [ -f dashboard/requirements.txt ]; then pip install -r dashboard/requirements.txt; fi
+
+    # 4. PYTHON LINTING (Ruff)
+    # Check Python code conventions (airflow DAGs, databricks notebooks, streamlit app)
+    - name: Run Python Lint checks (Ruff)
+      run: |
+        # Check syntax, formatting, and standard rules
+        ruff check dashboard/ airflow/ databricks/ --ignore E501
+
+    # 5. SQL LINTING (sqlfluff)
+    # Validates Snowflake script schemas and SQL structure conventions
+    - name: Run SQL Lint checks (sqlfluff)
+      run: |
+        # Run sqlfluff on Snowflake setup scripts using snowflake dialect
+        sqlfluff lint snowflake/ --dialect snowflake
+
+    # 6. DBT PROJECT SYNTAX VERIFICATION
+    # Validates that dbt configurations, sources, and schema links are correct
+    - name: Validate dbt Project Config (dbt parse)
+      run: |
+        cd dbt_project
+        # Creates a mock profile to bypass local snowflake connection requirement
+        echo "meowmetrics_profile:" > profiles.yml
+        echo "  target: dev" >> profiles.yml
+        echo "  outputs:" >> profiles.yml
+        echo "    dev:" >> profiles.yml
+        echo "      type: snowflake" >> profiles.yml
+        echo "      account: mock" >> profiles.yml
+        echo "      user: mock" >> profiles.yml
+        echo "      password: mock" >> profiles.yml
+        echo "      role: mock" >> profiles.yml
+        echo "      database: mock" >> profiles.yml
+        echo "      warehouse: mock" >> profiles.yml
+        echo "      schema: mock" >> profiles.yml
+        
+        # dbt parse compiles the YAML and SQL configs to verify they have no syntax issues
+        dbt parse --profiles-dir .
