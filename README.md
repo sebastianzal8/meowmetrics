@@ -11,10 +11,10 @@ This repository serves as a portfolio project demonstrating expertise in **Datab
 ```mermaid
 graph TD
     A[Smart Collar IoT Raw JSON] -->|S3 / ADLS Gen2 Stage| B(Databricks Bronze Layer)
-    B -->|PySpark / Delta Lake| C(Databricks Silver Layer - Cleaned & De-duplicated Parquet)
-    C -->|COPY INTO / Snowpipe| D[(Snowflake Raw Staging Schema)]
-    D -->|dbt Models & Tests| E[(Snowflake Gold Star Schema)]
-    E -->|dbt Marts & Views| F[Tableau Desktop Dashboard]
+    B -->|PySpark and Delta Lake| C(Databricks Silver Layer - Cleaned and De-duplicated Parquet)
+    C -->|COPY INTO and Snowpipe| D[(Snowflake Raw Staging Schema)]
+    D -->|dbt Models and Tests| E[(Snowflake Gold Star Schema)]
+    E -->|dbt Marts and Views| F[Tableau Desktop Dashboard]
     E -->|Read via Snowflake Connector| G[Streamlit Dashboard App]
     
     subgraph Orchestration
@@ -24,7 +24,7 @@ graph TD
     end
     
     subgraph Infrastructure
-        I[Terraform Configuration] -->|Deploys| Snowflake Schema & Storage Bucket
+        I[Terraform Configuration] -->|Deploys| J[Snowflake Schema and Storage Bucket]
     end
 ```
 
