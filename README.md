@@ -74,8 +74,8 @@ graph TD
 ### 1. Initialize Git and Push to GitHub
 If you want to host this codebase on your GitHub profile:
 ```bash
-# In your terminal, navigate to this directory:
-cd C:/Users/SSalazar11/Code/Other/meowmetrics
+# In your terminal, navigate to your project directory:
+cd meowmetrics
 
 # Initialize Git
 git init
