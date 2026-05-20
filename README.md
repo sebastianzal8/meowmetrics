@@ -104,7 +104,7 @@ source venv/Scripts/activate # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 streamlit run app.py
 ```
-*(By default, the Streamlit app will load beautifully simulated data so recruiters can test it locally without needing a live connection to a Snowflake warehouse).*
+*(By default, the Streamlit app will load beautifully simulated data so it can test it locally without needing a live connection to a Snowflake warehouse).*
 
 ### 3. Tableau Dashboard Connection Guide
 To visualize the dbt Gold-layer outputs in **Tableau**:
