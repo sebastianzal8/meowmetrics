@@ -101,8 +101,8 @@ To preview the interactive analytics panel:
 cd dashboard
 python -m venv venv
 source venv/Scripts/activate # Windows: venv\Scripts\activate
-python pip install -r requirements.txt
-python streamlit run app.py
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
 ### 3. Tableau Dashboard Connection Guide
